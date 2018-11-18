@@ -5,12 +5,17 @@
 mod model;
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> String {
+    let ps = &model::CPerson();
+    let mut res = String::new();
+    for p in ps {
+        res.push_str(&format!("<p>{}-{}</p>", p.id, p.name));
+    }
+    res
 }
 
 fn main() {
-    model::CPerson();
+    
     rocket::ignite()
         .mount("/", routes![index])
         .launch();
